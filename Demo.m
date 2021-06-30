@@ -26,14 +26,17 @@ Screen('FillRect', windowPointer, 0);
 % destinationRect = CenterRect(destinationRect,rect); 
 destinationRect = rect;
 
+
+fixcoord=[500, 500, 550, 550];
+
 %% Reproduce the Video
 for i=1:v.NumFrames
     frame = v.read(i);
     texturePointer = Screen('MakeTexture', windowPointer, frame,0,4);
     Screen3D({1,eyeSep},'DrawTexture', windowPointer, texturePointer,[],destinationRect );
+    Screen3D({1,eyeSep}, 'FillRect', windowPointer,uint8([255 0 0]), fixcoord);
 
-
-Screen('Close',texturePointer);
-Screen('DrawingFinished', windowPointer);
-vbl = Screen('Flip', windowPointer);
+    Screen('Close',texturePointer);
+    Screen('DrawingFinished', windowPointer);
+    vbl = Screen('Flip', windowPointer);
 end

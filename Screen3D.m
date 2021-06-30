@@ -37,6 +37,22 @@ function [o1,o2,o3,o4] = Screen3D(data,varargin)
 %   Screen3D({1,100}, ...
 %              'DrawTexture', windowPointer, texturePointer,[],rect);
 
+%'FillRect', 
+%   #INPUT#
+%   data structure 
+%       {
+%           stereoMode: 0 mono, 1 second display, 2 vr (actually, works 
+%                       only second display 
+%           eyeSep: separation between images in px (per eye)
+%       }
+%
+%   #OUTPUT
+%   it returns (0)
+%   
+%   #EXAMPLE
+%   Screen3D({1,100}, ...
+%            'FillRect', windowPointer,uint8([255 0 0]), [500,500,550,550]);
+
 %Setup output args
 o1 = NaN;
 o2 = NaN;
@@ -65,24 +81,22 @@ switch varargin{1}
         
     case 'DrawTexture'
         eyeSep = data{2};
-        rect = varargin{5};
-        for i = 0:1
-            Screen('SelectStereoDrawBuffer', varargin{2}, i);
-            if(i == 0) %Draw left
-                    rectFix = rect;
-                    rectFix(1) = rect(1) + eyeSep;
-                    rectFix(3) = rect(3) + eyeSep;
-                    varargin{5} = rectFix;
-                    Screen(varargin{:});
-            else %Draw right
-                    rectFix = rect;
-                    rectFix(1) = rect(1) - eyeSep;
-                    rectFix(3) = rect(3) - eyeSep;
-                    varargin{5} = rectFix;
-                    Screen(varargin{:});
-            end
-        end
+        rectPosVar = 5;
+%         rectL= rect; rectR=rect;
+%         rectL(1) = rect(1) - eyeSep;
+%         rectL(3) = rect(3) - eyeSep;
+%         rectR(1) = rect(1) + eyeSep;
+%         rectR(3) = rect(3) + eyeSep;
+        Drawer3D(varargin{2},rectPosVar,eyeSep,varargin{:});
         
+    %% FILL RECT
+    case 'FillRect'
+        eyeSep = data{2};
+        rectPosVar=4;
+        Drawer3D(varargin{2},rectPosVar,eyeSep,varargin{:});
+    
+    
+    
     %% NOT IMPLEMENTED
     otherwise 
         baseException = MException(notImplemented,...
