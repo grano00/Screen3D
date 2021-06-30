@@ -21,7 +21,21 @@ function [o1,o2,o3,o4] = Screen3D(data,varargin)
 %   [windPtr,rect,eyeSep] = Screen3D({'htcviveproeye',1,6.4}, ...
 %               'OpenWindow',iscreen,[],[],32);
 
-
+%'DrawTexture', 
+%   #INPUT#
+%   data structure 
+%       {
+%           stereoMode: 0 mono, 1 second display, 2 vr (actually, works 
+%                       only second display 
+%           eyeSep: separation between images in px (per eye)
+%       }
+%
+%   #OUTPUT
+%   it returns (0)
+%   
+%   #EXAMPLE
+%   Screen3D({1,100}, ...
+%              'DrawTexture', windowPointer, texturePointer,[],rect);
 
 %Setup output args
 o1 = NaN;
@@ -37,17 +51,37 @@ notImplemented = 'MYFUN:NotYetImplemented';
 switch varargin{1}
     %% OPEN WINDOW
     case 'OpenWindow'
-        stereoMode=data{1};
-        IPD=data{2};
+        stereoMode=data{2};
+        IPD=data{3};
         if(stereoMode == 1), stereoMode=4; end;
         varargin{7} = stereoMode;
         varargin{3} = WhiteIndex(varargin{2});
         [o1, o2] = Screen(varargin{:});
-        o3 = IPD2pxSeparation('htcviveproeye',IPD,o2(3))
+        o3 = IPD2pxSeparation('htcviveproeye',IPD,o2(3));
         
     %% MAKE TEXTURE
     case 'MakeTexture'
         disp('mt')
+        
+    case 'DrawTexture'
+        eyeSep = data{2};
+        rect = varargin{5};
+        for i = 0:1
+            Screen('SelectStereoDrawBuffer', varargin{2}, i);
+            if(i == 0) %Draw left
+                    rectFix = rect;
+                    rectFix(1) = rect(1) + eyeSep;
+                    rectFix(3) = rect(3) + eyeSep;
+                    varargin{5} = rectFix;
+                    Screen(varargin{:});
+            else %Draw right
+                    rectFix = rect;
+                    rectFix(1) = rect(1) - eyeSep;
+                    rectFix(3) = rect(3) - eyeSep;
+                    varargin{5} = rectFix;
+                    Screen(varargin{:});
+            end
+        end
         
     %% NOT IMPLEMENTED
     otherwise 
