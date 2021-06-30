@@ -81,20 +81,20 @@ switch varargin{1}
         
     case 'DrawTexture'
         eyeSep = data{2};
-        rectPosVar = 5;
-%         rectL= rect; rectR=rect;
-%         rectL(1) = rect(1) - eyeSep;
-%         rectL(3) = rect(3) - eyeSep;
-%         rectR(1) = rect(1) + eyeSep;
-%         rectR(3) = rect(3) + eyeSep;
-        Drawer3D(varargin{2},rectPosVar,eyeSep,varargin{:});
+        posVar = 5;
+        Drawer3D(varargin{2},posVar,eyeSep,varargin{:});
         
     %% FILL RECT
     case 'FillRect'
         eyeSep = data{2};
-        rectPosVar=4;
-        Drawer3D(varargin{2},rectPosVar,eyeSep,varargin{:});
-    
+        posVar=4;
+        Drawer3D(varargin{2},posVar,eyeSep,varargin{:});
+        
+    %% DRAW DOTS
+    case 'DrawDots'
+        eyeSep = data{2};
+        posVar=6;
+        Drawer3D(varargin{2},posVar,eyeSep,varargin{:});
     
     
     %% NOT IMPLEMENTED
