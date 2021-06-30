@@ -53,6 +53,39 @@ function [o1,o2,o3,o4] = Screen3D(data,varargin)
 %   Screen3D({1,100}, ...
 %            'FillRect', windowPointer,uint8([255 0 0]), [500,500,550,550]);
 
+%'DrawDots', 
+%   #INPUT#
+%   data structure 
+%       {
+%           stereoMode: 0 mono, 1 second display, 2 vr (actually, works 
+%                       only second display 
+%           eyeSep: separation between images in px (per eye)
+%       }
+%
+%   #OUTPUT
+%   it returns (0)
+%   
+%   #EXAMPLE
+%   Screen3D({1,100}, ...
+%            'FillRect', windowPointer, [20, 50], [50], uint8([0 255 0]), [700,600],1);
+
+
+% 'FrameRect'
+%   #INPUT#
+%   data structure 
+%       {
+%           stereoMode: 0 mono, 1 second display, 2 vr (actually, works 
+%                       only second display 
+%           eyeSep: separation between images in px (per eye)
+%       }
+%
+%   #OUTPUT
+%   it returns (0)
+%   
+%   #EXAMPLE
+%   Screen3D({1,100}, ...
+%            'FrameRect', windowPointer, uint8([255 0 0]), [0,0,400,400],3);
+
 %Setup output args
 o1 = NaN;
 o2 = NaN;
@@ -96,7 +129,12 @@ switch varargin{1}
         posVar=6;
         Drawer3D(varargin{2},posVar,eyeSep,varargin{:});
     
-    
+    %% FRAME RECT
+    case 'FrameRect'
+        eyeSep = data{2};
+        posVar= 4;
+        Drawer3D(varargin{2},posVar,eyeSep,varargin{:});
+        
     %% NOT IMPLEMENTED
     otherwise 
         baseException = MException(notImplemented,...
