@@ -30,16 +30,19 @@ screeninfo=Screen('Resolution', windowPointer);
 % destinationRect = CenterRect(destinationRect,rect); 
 destinationRect = rect;
 
-es = gScreen3D.Eyesep;
-if(isnan(es))
-    es=0;
+[r,c] = size(i);
+if(r > destinationRect(4))
+    i = imresize(i, [destinationRect(4), NaN]);
+end
+if(c > destinationRect(3))
+    i = imresize(i, [NaN, destinationRect(3)]);
+    destinationRect(3:4) = [c,c];
 end
 
-destinationRect = ResizeToScreen(i,destinationRect,es);
-dr = CenterRect(destinationRect,rect);   
+destinationRect = CenterRect(destinationRect,rect);   
 
 texturePointer = Screen('MakeTexture', windowPointer, i,0,4);
-Screen3D('DrawTexture', windowPointer, texturePointer,[],dr );
+Screen3D('DrawTexture', windowPointer, texturePointer,[],destinationRect );
 Screen('Close',texturePointer);
 Screen('DrawingFinished', windowPointer);
 vbl = Screen('Flip', windowPointer);

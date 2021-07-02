@@ -109,36 +109,18 @@ switch screenType
         posVar= 4;
         Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
         
-    %% FILL ARC
-    case 'FillArc'
-               
-        posVar= 4;
-        Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
-      
-    %% FILL RECT
-    case 'FillRect'
-               
-        posVar= 4;
-        Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
-            
     %% FRAME RECT
     case 'FrameRect'
        
         posVar= 4;
         Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
-      
-    %% FILL OVAL
-    case 'FillOval'
+        
+    %% FILL ARC
+    case 'FillArc'
                
         posVar= 4;
         Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
-            
-    %% FRAME OVAL
-    case 'FrameOval'
-       
-        posVar= 4;
-        Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
-            
+        
     %% NOT IMPLEMENTED
     otherwise 
         baseException = MException(notImplemented,...
@@ -149,18 +131,20 @@ end
 end
 
 
-% % [windowPtr,rect]=Screen(‘OpenWindow‘,windowPtrOrScreenNumber [,color] [,rect] [,pixelSize] [,numberOfBuffers] [,stereomode] [,multisample][,imagingmode][,specialFlags][,clientRect][,fbOverrideRect][,vrrParams=[]]);
+% [windowPtr,rect]=Screen(‘OpenWindow‘,windowPtrOrScreenNumber [,color] [,rect] [,pixelSize] [,numberOfBuffers] [,stereomode] [,multisample][,imagingmode][,specialFlags][,clientRect][,fbOverrideRect][,vrrParams=[]]);
 % [windowPtr,rect]=Screen(‘OpenOffscreenWindow‘,windowPtrOrScreenNumber [,color] [,rect] [,pixelSize] [,specialFlags] [,multiSample]);
-% % textureIndex=Screen(‘MakeTexture’, WindowIndex, imageMatrix [, optimizeForDrawAngle=0] [, specialFlags=0] [, floatprecision] [, textureOrientation=0] [, textureShader=0]);
-
-% % currentbuffer = Screen(‘SelectStereoDrawBuffer’, windowPtr [, bufferid] [, param1]);
+% textureIndex=Screen(‘MakeTexture’, WindowIndex, imageMatrix [, optimizeForDrawAngle=0] [, specialFlags=0] [, floatprecision] [, textureOrientation=0] [, textureShader=0]);
+% oldParams = Screen(‘PanelFitter’, windowPtr [, newParams]);
+% Screen(‘Close’, [windowOrTextureIndex or list of textureIndices/offscreenWindowIndices]);
+% Screen(‘CloseAll’);
+% currentbuffer = Screen(‘SelectStereoDrawBuffer’, windowPtr [, bufferid] [, param1]);
 % Screen(‘DrawLine’, windowPtr [,color], fromH, fromV, toH, toV [,penWidth]);
-% % Screen(‘DrawArc‘,windowPtr,[color],[rect],startAngle,arcAngle)
-% % Screen(‘FrameArc‘,windowPtr,[color],[rect],startAngle,arcAngle[,penWidth] [,penHeight] [,penMode])
-% % Screen(‘FillArc‘,windowPtr,[color],[rect],startAngle,arcAngle)
-% % Screen(‘FillRect’, windowPtr [,color] [,rect] );
-% % Screen(‘FrameRect’, windowPtr [,color] [,rect] [,penWidth]);
-% % Screen(‘FillOval’, windowPtr [,color] [,rect] [,perfectUpToMaxDiameter]);
-% % Screen(‘FrameOval’, windowPtr [,color] [,rect] [,penWidth] [,penHeight] [,penMode]);
+% Screen(‘DrawArc‘,windowPtr,[color],[rect],startAngle,arcAngle)
+% Screen(‘FrameArc‘,windowPtr,[color],[rect],startAngle,arcAngle[,penWidth] [,penHeight] [,penMode])
+% Screen(‘FillArc‘,windowPtr,[color],[rect],startAngle,arcAngle)
+% Screen(‘FillRect’, windowPtr [,color] [,rect] );
+% Screen(‘FrameRect’, windowPtr [,color] [,rect] [,penWidth]);
+% Screen(‘FillOval’, windowPtr [,color] [,rect] [,perfectUpToMaxDiameter]);
+% Screen(‘FrameOval’, windowPtr [,color] [,rect] [,penWidth] [,penHeight] [,penMode]);
 % Screen(‘FramePoly’, windowPtr [,color], pointList [,penWidth]);
 % Screen(‘FillPoly’, windowPtr [,color], pointList [, isConvex]);

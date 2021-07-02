@@ -12,6 +12,8 @@ catch me
     end
 end
 
+
+
 for i = 0:1
     Screen('SelectStereoDrawBuffer', wpointer, i);
     if(i == 0) %Draw left
