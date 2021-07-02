@@ -1,8 +1,13 @@
 clear all; clc; close all;
 
+global gScreen3D
+gScreen3D.I3D=1;
+gScreen3D.IPD=6.4;
+gScreen3D.Eyesep=NaN;
+gScreen3D.Device='htcviveproeye';
+
 fn_video = 'demoVideo.mp4';
-stereoMode = 1;
-IPD = 6.4;
+
 
 %% Load the video
 v = VideoReader(fn_video);
@@ -14,8 +19,7 @@ iscreen=max(Screen('Screens'));
 Screen('Preference', 'SkipSyncTests',1);
 Screen('Preference', 'ConserveVRAM', 512);
 
-[windowPointer, rect, eyeSep] = Screen3D({'htcviveproeye',stereoMode,IPD},...
-    'OpenWindow',iscreen,[],[],32);
+[windowPointer, rect] = Screen3D('OpenWindow',iscreen,[],[],32);
 
 screeninfo=Screen('Resolution', windowPointer);
 
@@ -32,11 +36,11 @@ fixcoord=[500, 500, 550, 550];
 for i=1:5000
     frame = v.read(i);
     texturePointer = Screen('MakeTexture', windowPointer, frame,0,4);
-    Screen3D({1,eyeSep},'DrawTexture', windowPointer, texturePointer,[],destinationRect );
-    Screen3D({1,eyeSep}, 'FillRect', windowPointer,uint8([255 0 0]), fixcoord);
-    Screen3D({1,eyeSep}, 'DrawDots', windowPointer, [20, 50], ...
+    Screen3D('DrawTexture', windowPointer, texturePointer,[],destinationRect );
+    Screen3D('FillRect', windowPointer,uint8([255 0 0]), fixcoord);
+    Screen3D( 'DrawDots', windowPointer, [20, 50], ...
         [50], uint8([0 255 0]), [700,600],1);
-    Screen3D({1,eyeSep},'FrameRect', windowPointer, uint8([255 0 0]), destinationRect/2,3);
+    Screen3D('FrameRect', windowPointer, uint8([255 0 0]), destinationRect/2,3);
     
     Screen('Close',texturePointer);
     Screen('DrawingFinished', windowPointer);
