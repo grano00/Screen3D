@@ -1,14 +1,6 @@
 function [o1,o2,o3,o4,o5,o6,o7] = Screen3D(varargin)
 % Set data{1} = 0 to use mono, 1 to use HMD
 
-%It is acqually used for 
-%'OpenWindows', 
-%'DrawTexture', 
-%'FrameRect'
-%'FillRect', 
-%'DrawDots', 
-
-
 
 global gScreen3D;
 if(isempty(gScreen3D))
@@ -85,6 +77,14 @@ switch screenType
             o1 = ScreenPass(1,varargin{:});
         end
        
+%        Screen(‘DrawLine’, windowPtr [,color], fromH, fromV, toH, toV [,penWidth]);
+    
+    %% DRAW LINES
+    case 'DrawLines'
+        
+        posVar=6;
+        Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
+
     %% DRAW TEXTURE    
     case 'DrawTexture'
         
@@ -157,28 +157,21 @@ switch screenType
             Screen(varargin{:});
         end
         
+        
+    case 'DrawLine'
+       baseException = MException(notImplemented,...
+            [screenType 'not implemented in screen3D -> Use DrawLines']);
+       throw(baseException);
+       
+
+        
     %% NOT IMPLEMENTED
     otherwise 
         baseException = MException(notImplemented,...
-            'Use Screen instead of Screen3D ');
+            [screenType 'not implemented in Screen3D. Use Screen instead of Screen3D ']);
         throw(baseException);
 end
 
 end
 
 
-% % [windowPtr,rect]=Screen(‘OpenWindow‘,windowPtrOrScreenNumber [,color] [,rect] [,pixelSize] [,numberOfBuffers] [,stereomode] [,multisample][,imagingmode][,specialFlags][,clientRect][,fbOverrideRect][,vrrParams=[]]);
-% [windowPtr,rect]=Screen(‘OpenOffscreenWindow‘,windowPtrOrScreenNumber [,color] [,rect] [,pixelSize] [,specialFlags] [,multiSample]);
-% % textureIndex=Screen(‘MakeTexture’, WindowIndex, imageMatrix [, optimizeForDrawAngle=0] [, specialFlags=0] [, floatprecision] [, textureOrientation=0] [, textureShader=0]);
-
-% % currentbuffer = Screen(‘SelectStereoDrawBuffer’, windowPtr [, bufferid] [, param1]);
-% Screen(‘DrawLine’, windowPtr [,color], fromH, fromV, toH, toV [,penWidth]);
-% % Screen(‘DrawArc‘,windowPtr,[color],[rect],startAngle,arcAngle)
-% % Screen(‘FrameArc‘,windowPtr,[color],[rect],startAngle,arcAngle[,penWidth] [,penHeight] [,penMode])
-% % Screen(‘FillArc‘,windowPtr,[color],[rect],startAngle,arcAngle)
-% % Screen(‘FillRect’, windowPtr [,color] [,rect] );
-% % Screen(‘FrameRect’, windowPtr [,color] [,rect] [,penWidth]);
-% % Screen(‘FillOval’, windowPtr [,color] [,rect] [,perfectUpToMaxDiameter]);
-% % Screen(‘FrameOval’, windowPtr [,color] [,rect] [,penWidth] [,penHeight] [,penMode]);
-% Screen(‘FramePoly’, windowPtr [,color], pointList [,penWidth]);
-% Screen(‘FillPoly’, windowPtr [,color], pointList [, isConvex]);

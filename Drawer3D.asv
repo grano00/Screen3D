@@ -30,8 +30,7 @@ for i = 0:1
     if(i == 0) %Draw left
             rectFix = rect;
             rectFix(1) = rect(1) + eyeSep;
-            if(~strcmp(varargin{1},'DrawDots') | ...
-                   ~strcmp(varargin{1},'DrawLines'))
+            if(~strcmp(varargin{1},'DrawDots') & )
                 rectFix(3) = rect(3) + eyeSep;
             end
             
@@ -43,8 +42,7 @@ for i = 0:1
     else %Draw right
             rectFix = rect;
             rectFix(1) = rect(1) - eyeSep;           
-            if(~strcmp(varargin{1},'DrawDots') | ...
-                   ~strcmp(varargin{1},'DrawLines'))
+            if(~strcmp(varargin{1},'DrawDots'))
                 rectFix(3) = rect(3) - eyeSep;
             end
             
