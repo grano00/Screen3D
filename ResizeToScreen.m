@@ -1,9 +1,14 @@
 function [dr] = ResizeToScreen(frame,dr,eyeSep)
 %RESIZETOSCREEN Summary of this function goes here
 %   Detailed explanation goes here
-if(nargin<3)
-   eyeSep = 0; 
+global gScreen3D;
+
+
+eyeSep = gScreen3D.Eyesep;
+if(isnan(eyeSep))
+    eyeSep = 0;
 end
+
 
 [r,c] = size(frame);
 if(r > (dr(4)-dr(2)))

@@ -22,7 +22,7 @@ function [o1,o2,o3,o4,o5,o6,o7] = ScreenPass(nOutput,varargin)
         case 2
             [o1,o2] = Screen(varargin{:});
         case 1
-            [o1] = Screen(varargin{:});
+            o1 = Screen(varargin{:});
         case 0
             Screen(varargin{:});
     end

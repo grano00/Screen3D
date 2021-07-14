@@ -1,24 +1,24 @@
 function [o1,o2,o3,o4,o5,o6,o7] = Screen3D(varargin)
-% Set data{1} =0 to use mono, 1 to use HMD
+% Set data{1} = 0 to use mono, 1 to use HMD
 
 %It is acqually used for 
 %'OpenWindows', 
 %'DrawTexture', 
+%'FrameRect'
 %'FillRect', 
 %'DrawDots', 
-% 'FrameRect'
+
 
 
 global gScreen3D;
 if(isempty(gScreen3D))
     error(['You have to implement gScreen3D as global variable. ' ...
-        'gScreen3D should be a scruct with these args: I3D,IPD,Eyesep,device']);
+        'gScreen3D should be a scruct with these args: I3D,IPD,Eyesep']);
 end
 
 I3D = gScreen3D.I3D;
 IPD = gScreen3D.IPD;
 Eyesep = gScreen3D.Eyesep;
-device = gScreen3D.Device;
 
 
 %Setup output args
@@ -40,7 +40,8 @@ end
 %% exception not yet implemented
 notImplemented = 'MYFUN:NotYetImplemented';
 
- 
+isSBS = I3D == 2;
+
 if(I3D == 0)
     nOutput = 7;
     if(strcmp(screenType,'OpenWindow'))
@@ -54,6 +55,8 @@ if(I3D == 0)
     [o1,o2,o3,o4,o5,o6,o7] = ...
         ScreenPass(nOutput,varargin{:});
     return
+else
+    I3D = 1;
 end
 
 %If the screen type is passed in second position, switch the parameters
@@ -67,24 +70,33 @@ end
 switch screenType
     %% OPEN WINDOW
     case 'OpenWindow'
-        if(I3D == 1), I3D=4; end;
+        if(I3D == 1), I3D=4; end
         varargin{7} = I3D;
         varargin{3} = WhiteIndex(varargin{2});
         [o1, o2] = Screen(varargin{:});
-        e = IPD2pxSeparation(device,IPD,o2(3));
-        disp(['eyesepin3d:',num2str(e)]);
+        e = IPD2pxSeparation(gScreen3D.Monwidth,IPD,o2(3));
         gScreen3D.Eyesep = e;
-        disp(['gScreen3D:',num2str(gScreen3D.Eyesep)]);
         
     %% MAKE TEXTURE
     case 'MakeTexture'
-        disp('mt')
-        
+        if(isSBS)
+            o1 = MakeStereoTexture(varargin{:});
+        else
+            o1 = ScreenPass(1,varargin{:});
+        end
+       
+    %% DRAW TEXTURE    
     case 'DrawTexture'
         
         posVar = 5;
         Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
         
+    %% FILL RECT
+    case 'FillRect'
+               
+        posVar= 4;
+        Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
+            
     %% FILL RECT
     case 'FillRect'
         
@@ -115,12 +127,7 @@ switch screenType
         posVar= 4;
         Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
       
-    %% FILL RECT
-    case 'FillRect'
-               
-        posVar= 4;
-        Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
-            
+
     %% FRAME RECT
     case 'FrameRect'
        
@@ -138,7 +145,18 @@ switch screenType
        
         posVar= 4;
         Drawer3D(varargin{2},posVar,Eyesep,varargin{:});
-            
+        
+    case 'Close'
+        if(iscell(varargin{2}))
+            pts = varargin{2};
+            varargin{2} = pts{1};
+            Screen(varargin{:});
+            varargin{2} = pts{2};
+            Screen(varargin{:});
+        else
+            Screen(varargin{:});
+        end
+        
     %% NOT IMPLEMENTED
     otherwise 
         baseException = MException(notImplemented,...

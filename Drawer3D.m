@@ -13,6 +13,17 @@ catch me
 end
 
 
+%only for draw texture
+if(strcmp(varargin{1},'DrawTexture'))
+   tp = varargin{3};
+   if(iscell(tp))
+       tpL = tp{1};
+       tpR = tp{2};
+   else
+       tpL = tp;
+       tpR = tp;
+   end
+end
 
 for i = 0:1
     Screen('SelectStereoDrawBuffer', wpointer, i);
@@ -22,6 +33,10 @@ for i = 0:1
             if(~strcmp(varargin{1},'DrawDots'))
                 rectFix(3) = rect(3) + eyeSep;
             end
+            
+            if(strcmp(varargin{1},'DrawTexture'))
+                varargin{3} = tpL;
+            end
             varargin{posVar} = rectFix;
             Screen(varargin{:});
     else %Draw right
@@ -29,6 +44,10 @@ for i = 0:1
             rectFix(1) = rect(1) - eyeSep;           
             if(~strcmp(varargin{1},'DrawDots'))
                 rectFix(3) = rect(3) - eyeSep;
+            end
+            
+            if(strcmp(varargin{1},'DrawTexture'))
+                varargin{3} = tpR;
             end
             varargin{posVar} = rectFix;
             Screen(varargin{:});
